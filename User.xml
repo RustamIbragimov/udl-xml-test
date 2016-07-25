@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2016.1 (Build 656U)" ts="2016-07-25 17:32:00">
+<Class name="User.LotteryActivity">
+<Description><![CDATA[
+The <CLASS>LotteryUser</CLASS> class represents a specific user activity  
+the CSP Lottery Example application.]]></Description>
+<Super>%Persistent</Super>
+<TimeChanged>63988,63187</TimeChanged>
+<TimeCreated>59269,47269.89</TimeCreated>
+
+<Property name="TheUser">
+<Type>LotteryUser</Type>
+</Property>
+
+<Property name="ActivityTime">
+<Type>%TimeStamp</Type>
+<InitialExpression>$zdt($H,3)</InitialExpression>
+<Required>1</Required>
+</Property>
+
+<Property name="ActivityType">
+<Type>%String</Type>
+<Required>1</Required>
+</Property>
+
+<Property name="Amount">
+<Type>%Integer</Type>
+<InitialExpression>0</InitialExpression>
+<Required>1</Required>
+</Property>
+
+<Property name="Product">
+<Type>%String</Type>
+<Required>1</Required>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^User.LotteryActivityD</DataLocation>
+<DefaultData>LotteryActivityDefaultData</DefaultData>
+<IdLocation>^User.LotteryActivityD</IdLocation>
+<IndexLocation>^User.LotteryActivityI</IndexLocation>
+<StreamLocation>^User.LotteryActivityS</StreamLocation>
+<ExtentSize>100000</ExtentSize>
+<Data name="LotteryActivityDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>ActivityTime</Value>
+</Value>
+<Value name="3">
+<Value>ActivityType</Value>
+</Value>
+<Value name="4">
+<Value>Amount</Value>
+</Value>
+<Value name="5">
+<Value>Product</Value>
+</Value>
+<Value name="6">
+<Value>TheUser</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="User.LotteryUser">
+<Description><![CDATA[
+The <CLASS>LotteryUser</CLASS> class represents a user for 
+the CSP Lottery Example application.]]></Description>
+<Super>%Persistent</Super>
+<TimeChanged>63988,63187</TimeChanged>
+<TimeCreated>59269,47269.89</TimeCreated>
+
+<Index name="UserNameIdx">
+<Properties>UserName</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Property name="UserName">
+<Type>%String</Type>
+<Required>1</Required>
+</Property>
+
+<Property name="LastName">
+<Type>%String</Type>
+<Required>1</Required>
+</Property>
+
+<Property name="FirstName">
+<Type>%String</Type>
+<Required>1</Required>
+</Property>
+
+<Property name="Password">
+<Type>%String</Type>
+<Private>1</Private>
+<Required>1</Required>
+</Property>
+
+<Property name="VisitCount">
+<Type>%Integer</Type>
+<InitialExpression>0</InitialExpression>
+</Property>
+
+<Property name="TotalBalance">
+<Type>%Integer</Type>
+<InitialExpression>0</InitialExpression>
+</Property>
+
+<Property name="History">
+<Type>LotteryActivity</Type>
+<Collection>list</Collection>
+</Property>
+
+<Method name="changePassword">
+<Description>
+Change the password for this user.</Description>
+<FormalSpec>pass:%String</FormalSpec>
+<ReturnType>%Integer</ReturnType>
+<Implementation><![CDATA[
+ Set ..Password=pass
+ QUIT
+]]></Implementation>
+</Method>
+
+<Method name="testPassword">
+<Description><![CDATA[
+Test if <var>pass</var> is correct password for this user.]]></Description>
+<FormalSpec>pass:%String</FormalSpec>
+<ReturnType>%Boolean</ReturnType>
+<Implementation><![CDATA[ Quit (..Password=pass)
+]]></Implementation>
+</Method>
+
+<Method name="addNewUser">
+<Description>
+Called by CSP page to add a new user.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>UserName:%String,FirstName:%String,LastName:%String,pass:%String</FormalSpec>
+<ReturnType>%Integer</ReturnType>
+<Implementation><![CDATA[
+ Set user=##class(LotteryUser).%New()
+ Set user.UserName=UserName
+ Set user.FirstName=FirstName
+ Set user.LastName=LastName
+ Do user.changePassword(pass)
+
+ Set sc=user.%Save()
+
+ If ($$$ISERR(sc)) &js<alert('Unable to create user.');> QUIT 0
+
+ QUIT 1
+]]></Implementation>
+</Method>
+
+<Method name="findUser">
+<Description>
+Find the ID of the user with the specified user name.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>UserName:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+ Set id=""
+
+ ; use embedded SQL to search for user
+ &sql(SELECT ID INTO :id FROM LotteryUser Where (UserName = :UserName))
+
+ QUIT id
+]]></Implementation>
+</Method>
+
+<Method name="authenticate">
+<Description>
+Test if the name/password specifies a valid user. If so, return the user's ID.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>UserName:%String,Password:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+ Set id=..findUser(UserName)
+ If (id'="") Do
+ . Set user=..%OpenId(id)
+ . If 'user.testPassword(Password) Set id=""
+
+ QUIT id
+]]></Implementation>
+</Method>
+
+<Method name="addPurchase">
+<Description>
+Called by CSP page to add a new purchase. Returns amount of purchase.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>id:%String,type:%String</FormalSpec>
+<ReturnType>%Float</ReturnType>
+<Implementation><![CDATA[
+ Set price=0
+ If (type="STANDARD") Set price=10
+ Else  If (type="DELUXE") Set price=50
+
+ If (price=0) QUIT 0
+
+ Set user=##class(LotteryUser).%OpenId(id)
+ If user="" QUIT 0
+
+ Set action=##class(LotteryActivity).%New()
+ Set action.TheUser=user
+ Set action.ActivityType="PURCHASE"
+ Set action.Amount=price
+ Set action.Product=type
+
+ Do user.History.Insert(action)
+
+ Set sc=user.%Save()
+
+ QUIT price
+]]></Implementation>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^User.LotteryUserD</DataLocation>
+<DefaultData>LotteryUserDefaultData</DefaultData>
+<IdLocation>^User.LotteryUserD</IdLocation>
+<IndexLocation>^User.LotteryUserI</IndexLocation>
+<StreamLocation>^User.LotteryUserS</StreamLocation>
+<ExtentSize>100000</ExtentSize>
+<Data name="LotteryUserDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>FirstName</Value>
+</Value>
+<Value name="3">
+<Value>History</Value>
+</Value>
+<Value name="4">
+<Value>LastName</Value>
+</Value>
+<Value name="5">
+<Value>Password</Value>
+</Value>
+<Value name="6">
+<Value>TotalBalance</Value>
+</Value>
+<Value name="7">
+<Value>UserName</Value>
+</Value>
+<Value name="8">
+<Value>VisitCount</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="User.LotteryUtils">
+<Description><![CDATA[
+The <CLASS>LotteryUtils</CLASS> class contains a number of common methods used by 
+the pages within the CSP Lottery Example application.]]></Description>
+<Abstract>1</Abstract>
+<IncludeCode>%occInclude,%cspInclude</IncludeCode>
+<IncludeGenerator>%occInclude</IncludeGenerator>
+<ProcedureBlock>0</ProcedureBlock>
+<TimeChanged>63988,63187</TimeChanged>
+<TimeCreated>59269,47269.89</TimeCreated>
+
+<Method name="onPrePage">
+<Implementation><![CDATA[
+ ; perform page authorization
+ ; if user is not logged in, jump to Error Page
+ Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="displayTitle">
+<Description>
+Write out the HTML to display the common title used by pages within the 
+Lottery example.</Description>
+<ClassMethod>1</ClassMethod>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+ &html<<p align="center"><img src="lotterylogo.jpg"></p><hr>>
+ Quit ""
+]]></Implementation>
+</Method>
+
+<Method name="displayUnauthorized">
+<Description>
+Write out the HTML to display the common message display for 
+unauthorized access within the Lottery example.</Description>
+<ClassMethod>1</ClassMethod>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+ &html<
+ <p align="center">
+ <font face="Lucida Sans" color="yellow"  size="+3">
+ <font color="red"><b>Unauthorized access.</b></font></p>
+ <p align="center">
+ You must <a href='#(##class(%CSP.Page).Link("lottery.csp"))#'>login</a> to visit this page.</p>
+ </font>
+ >
+ Quit ""
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="User.Person">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>%Persistent,%Populate</Super>
+<TimeChanged>63988,63187</TimeChanged>
+<TimeCreated>59912,46120.301956</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Property name="name">
+<Type>%String</Type>
+<Parameter name="POPSPEC" value="Name()"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="city">
+<Type>%String</Type>
+<Parameter name="POPSPEC" value="City()"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="dob">
+<Type>%Date</Type>
+</Property>
+
+<Property name="score">
+<Type>%Integer</Type>
+<Parameter name="POPSPEC" value="Integer(0,100)"/>
+</Property>
+
+<Property name="salary">
+<Type>%Float</Type>
+<Parameter name="POPSPEC" value="Float(5000,400000,2)"/>
+</Property>
+
+<Index name="nameIDX">
+<Data>name</Data>
+<Properties>name</Properties>
+</Index>
+
+<Index name="cityIDX">
+<Type>index</Type>
+<Properties>city:SQLSTRING</Properties>
+</Index>
+
+<Index name="nsIDX">
+<Properties>name,score</Properties>
+</Index>
+
+<Index name="ncIDX">
+<Properties>name,city</Properties>
+</Index>
+
+<Index name="scoreIDX">
+<Properties>score:SQLUPPER</Properties>
+</Index>
+
+<Index name="dobIDX">
+<Properties>dob</Properties>
+</Index>
+
+<Index name="salaryIDX">
+<Properties>salary</Properties>
+</Index>
+
+<Index name="salaryStrIDX">
+<Properties>salary:SQLString</Properties>
+</Index>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^User.PersonD</DataLocation>
+<DefaultData>PersonDefaultData</DefaultData>
+<IdLocation>^User.PersonD</IdLocation>
+<IndexLocation>^User.PersonI</IndexLocation>
+<StreamLocation>^User.PersonS</StreamLocation>
+<Data name="PersonDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>city</Value>
+</Value>
+<Value name="3">
+<Value>dob</Value>
+</Value>
+<Value name="4">
+<Value>name</Value>
+</Value>
+<Value name="5">
+<Value>salary</Value>
+</Value>
+<Value name="6">
+<Value>score</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>
