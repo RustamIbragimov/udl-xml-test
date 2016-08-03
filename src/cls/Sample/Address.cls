@@ -38,10 +38,10 @@ Storage AddressState
 <Value>asdsfasd</Value>
 </Value>
 <Value name="7">
-<Value>HREn</Value>
+<Value>Some</Value>
 </Value>
 <Value name="8">
-<Value>HRE??????n</Value>
+<Value>Val</Value>
 </Value>
 <Value name="9">
 <Value>TUT</Value>
