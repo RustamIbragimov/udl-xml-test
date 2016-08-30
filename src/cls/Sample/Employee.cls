@@ -14,9 +14,6 @@ Property Notes As %Stream.GlobalCharacter;
 /// A picture of the employee
 Property Picture As %Stream.GlobalBinary;
 
-/// The company this employee works for.
-Relationship Company As Company [ Cardinality = one, Inverse = Employees ];
-
 /// This method overrides the method in <class>Person</class>.<br>
 /// Prints the properties <property>Name</property> and <property>Title</property> 
 /// to the console.
