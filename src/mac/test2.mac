@@ -1,1 +1,2 @@
+ROUTINE test2
  write "this is test routine"
