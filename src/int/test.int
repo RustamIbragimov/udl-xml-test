@@ -1,1 +1,2 @@
- write "hello world"
+ROUTINE test [Type=INT,Generated]
+ do ##class(Util.SourceControl).Init()

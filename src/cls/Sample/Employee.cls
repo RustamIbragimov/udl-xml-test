@@ -73,11 +73,11 @@ Storage Default
 <Selectivity>1</Selectivity>
 </Property>
 <Property name="Age">
-<AverageFieldSize>1.91</AverageFieldSize>
-<Selectivity>1.7544%</Selectivity>
+<AverageFieldSize>1.88</AverageFieldSize>
+<Selectivity>1.6949%</Selectivity>
 </Property>
 <Property name="Company">
-<AverageFieldSize>1.55</AverageFieldSize>
+<AverageFieldSize>1.53</AverageFieldSize>
 <Selectivity>5.0000%</Selectivity>
 </Property>
 <Property name="DOB">
@@ -85,24 +85,24 @@ Storage Default
 <Selectivity>1.0000%</Selectivity>
 </Property>
 <Property name="FavoriteColors">
-<AverageFieldSize>7.49</AverageFieldSize>
-<OutlierSelectivity>.31:</OutlierSelectivity>
-<Selectivity>1.9714%</Selectivity>
+<AverageFieldSize>6.31</AverageFieldSize>
+<OutlierSelectivity>.43:</OutlierSelectivity>
+<Selectivity>1.7273%</Selectivity>
 </Property>
 <Property name="Home">
-<AverageFieldSize>35.4,City:6.82,State:2,Street:16.26,Zip:5</AverageFieldSize>
-<Selectivity>1.0000%,City:3.8462%,State:2.3256%,Street:1.0000%,Zip:1.0000%</Selectivity>
+<AverageFieldSize>36.36,City:7.38,State:2,Street:16.62,Zip:5</AverageFieldSize>
+<Selectivity>1.0000%,City:4.0000%,State:2.1277%,Street:1.0000%,Zip:1.0000%</Selectivity>
 </Property>
 <Property name="Name">
-<AverageFieldSize>15.77</AverageFieldSize>
+<AverageFieldSize>15.61</AverageFieldSize>
 <Selectivity>1.0000%</Selectivity>
 </Property>
 <Property name="Notes">
 <Selectivity>100.0000%</Selectivity>
 </Property>
 <Property name="Office">
-<AverageFieldSize>36.27,City:7.5,State:2,Street:16.41,Zip:5</AverageFieldSize>
-<Selectivity>1.0000%,City:4.0000%,State:2.2727%,Street:1.0000%,Zip:1.0000%</Selectivity>
+<AverageFieldSize>36.17,City:7.12,State:2,Street:16.65,Zip:5</AverageFieldSize>
+<Selectivity>1.0000%,City:4.0000%,State:2.3256%,Street:1.0000%,Zip:1.0000%</Selectivity>
 </Property>
 <Property name="Picture">
 <Selectivity>100.0000%</Selectivity>
@@ -116,12 +116,12 @@ Storage Default
 <Selectivity>1.0000%</Selectivity>
 </Property>
 <Property name="Spouse">
-<AverageFieldSize>1.89</AverageFieldSize>
-<Selectivity>1.6129%</Selectivity>
+<AverageFieldSize>1.9</AverageFieldSize>
+<Selectivity>1.4925%</Selectivity>
 </Property>
 <Property name="Title">
-<AverageFieldSize>20.11</AverageFieldSize>
-<Selectivity>1.4085%</Selectivity>
+<AverageFieldSize>20.3</AverageFieldSize>
+<Selectivity>1.3514%</Selectivity>
 </Property>
 <SQLMap name="$Employee">
 <BlockCount>-4</BlockCount>

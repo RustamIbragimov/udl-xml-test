@@ -1,2 +1,4 @@
+ROUTINE abc [Type=INC]
 #define MEANINGOFLIFE 42
+
 #define MYFAVORITENUMBER 11

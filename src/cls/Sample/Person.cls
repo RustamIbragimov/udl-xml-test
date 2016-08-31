@@ -192,29 +192,29 @@ Storage Default
 <Selectivity>1</Selectivity>
 </Property>
 <Property name="Age">
-<AverageFieldSize>1.92</AverageFieldSize>
-<Selectivity>1.2346%</Selectivity>
+<AverageFieldSize>1.89</AverageFieldSize>
+<Selectivity>1.1765%</Selectivity>
 </Property>
 <Property name="DOB">
 <AverageFieldSize>5</AverageFieldSize>
-<Selectivity>0.5000%</Selectivity>
+<Selectivity>0.5025%</Selectivity>
 </Property>
 <Property name="FavoriteColors">
-<AverageFieldSize>6.66</AverageFieldSize>
+<AverageFieldSize>6.67</AverageFieldSize>
 <OutlierSelectivity>.365:</OutlierSelectivity>
-<Selectivity>1.3511%</Selectivity>
+<Selectivity>1.4432%</Selectivity>
 </Property>
 <Property name="Home">
-<AverageFieldSize>35.7,City:6.86,State:2,Street:16.45,Zip:5</AverageFieldSize>
-<Selectivity>0.5000%,City:3.8462%,State:2.0408%,Street:0.5000%,Zip:0.5000%</Selectivity>
+<AverageFieldSize>36.34,City:7.31,State:2,Street:16.68,Zip:5</AverageFieldSize>
+<Selectivity>0.5000%,City:3.8462%,State:2.0000%,Street:0.5000%,Zip:0.5000%</Selectivity>
 </Property>
 <Property name="Name">
-<AverageFieldSize>15.78</AverageFieldSize>
+<AverageFieldSize>15.74</AverageFieldSize>
 <Selectivity>0.5000%</Selectivity>
 </Property>
 <Property name="Office">
-<AverageFieldSize>36.41,City:7.41,State:2,Street:16.63,Zip:5</AverageFieldSize>
-<Selectivity>0.5000%,City:3.8462%,State:2.0408%,Street:0.5000%,Zip:0.5000%</Selectivity>
+<AverageFieldSize>36.16,City:7.08,State:2,Street:16.72,Zip:5</AverageFieldSize>
+<Selectivity>0.5000%,City:3.8462%,State:2.0000%,Street:0.5000%,Zip:0.5000%</Selectivity>
 </Property>
 <Property name="SSN">
 <AverageFieldSize>11</AverageFieldSize>
@@ -223,7 +223,7 @@ Storage Default
 <Property name="Spouse">
 <AverageFieldSize>.95</AverageFieldSize>
 <OutlierSelectivity>.5:</OutlierSelectivity>
-<Selectivity>0.8065%</Selectivity>
+<Selectivity>0.7463%</Selectivity>
 </Property>
 <SQLMap name="$Person">
 <BlockCount>-4</BlockCount>
@@ -238,7 +238,7 @@ Storage Default
 <BlockCount>-8</BlockCount>
 </SQLMap>
 <SQLMap name="ZipCode">
-<BlockCount>-8</BlockCount>
+<BlockCount>-4</BlockCount>
 </SQLMap>
 <StreamLocation>^Sample.PersonS</StreamLocation>
 <Type>%Library.CacheStorage</Type>

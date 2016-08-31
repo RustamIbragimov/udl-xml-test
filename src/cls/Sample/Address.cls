@@ -14,8 +14,6 @@ Property State As %String(MAXLEN = 2, POPSPEC = "USState()");
 /// The 5-digit U.S. Zone Improvement Plan (ZIP) code.
 Property Zip As %String(MAXLEN = 5, POPSPEC = "USZip()");
 
-Property asd As %String;
-
 Storage AddressState
 {
 <Data name="AddressState">
@@ -30,24 +28,6 @@ Storage AddressState
 </Value>
 <Value name="4">
 <Value>Zip</Value>
-</Value>
-<Value name="5">
-<Value>asd</Value>
-</Value>
-<Value name="6">
-<Value>asdsfasd</Value>
-</Value>
-<Value name="7">
-<Value>HREn</Value>
-</Value>
-<Value name="8">
-<Value>HRE??????n</Value>
-</Value>
-<Value name="9">
-<Value>TUT</Value>
-</Value>
-<Value name="10">
-<Value>zxc</Value>
 </Value>
 </Data>
 <State>AddressState</State>
